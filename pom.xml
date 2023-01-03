@@ -10,6 +10,16 @@
 
     <modules>
         <module>log4j-demo</module>
+        <module>find-file-demo</module>
+        <module>design-model-demo</module>
+        <module>database-demo</module>
+        <module>hdfs-client-demo</module>
+        <module>redis-client-demo</module>
+        <module>junit-demo</module>
+        <module>sftp-demo</module>
+        <module>mp4parser-demo</module>
+        <module>jsr</module>
+        <module>springmvc-demo</module>
     </modules>
 
     <groupId>com.wpc</groupId>
@@ -17,6 +27,7 @@
     <version>1.0.0</version>
 
     <dependencies>
+        <!--log4j2的核心jar-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -27,10 +38,33 @@
             <artifactId>log4j-api</artifactId>
             <version>2.17.1</version>
         </dependency>
+        <!-- slf4j核心包 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <!--用于与slf4j保持桥接-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
     </dependencies>
 
