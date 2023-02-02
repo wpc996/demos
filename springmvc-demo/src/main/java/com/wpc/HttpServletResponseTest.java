@@ -22,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/")
 public class HttpServletResponseTest {
 
-    @RequestMapping(value = "/testHttpServletResponse/test1", method = RequestMethod.POST)
+    @RequestMapping(value = "/testHttpServletResponse/test1", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void testHttpServletResponse(@RequestBody Map<String, String> parameter, HttpServletResponse response) throws IOException {
         System.out.println(parameter.get("parameter1"));

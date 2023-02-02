@@ -2,17 +2,66 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--指明 controller 所在包，并扫描其中的注解-->
-    <context:component-scan base-package="com.wpc"/>
+    <context:component-scan base-package="com.wpc" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+
+    <!--    bean设置切面类-->
+        <bean name="aopConfigTest" class="com.wpc.aoptest.AopConfigTest"/>
+
+    <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(* com.wpc.aoptest..*.*(..))"/>
+        <aop:aspect ref="aopConfigTest">
+            <!-- 前置通知 -->
+            <aop:before method="before" pointcut-ref="pointcut"/>
+            <!-- 环绕通知 -->
+<!--            <aop:around method="around" pointcut-ref="pointcut" />-->
+            <!-- 后置通知 -->
+<!--            <aop:after-returning method="afterReturning" pointcut-ref="pointcut" returning="result"/>-->
+            <!-- 最终通知 都织入pc003（deleteUser）中，看看后置和最终谁最后执行 -->
+            <aop:after method="after" pointcut-ref="pointcut"/>
+            <!-- 异常通知 -->
+<!--            <aop:after-throwing method="afterThrow" pointcut-ref="pointcut" throwing="e"/>-->
+        </aop:aspect>
+    </aop:config>
+
+<!--Spring默认不支持@AspectJ风格的切面声明,表示支持-->
+    <aop:aspectj-autoproxy/>
 
     <!-- 静态资源(js、image等)的访问 -->
 <!--    <mvc:default-servlet-handler/>-->
 
     <!-- 开启注解 -->
     <mvc:annotation-driven/>
+
+    <bean name="testInterface" class="com.wpc.iml.InterfaceTest"/>
+
+    <bean name="bookDao" class="com.wpc.dao.iml.BookDaoImpl1"/>
+
+    <bean name="bookDao2" class="com.wpc.dao.iml.BookDaoImpl2"/>
+
+    <bean name="beanTest" class="com.wpc.bean.BeanTest">
+        <property name="bean4" ref="bean4"/>
+    </bean>
+
+    <bean name="bean4" class="com.wpc.bean.Bean4">
+        <property name="bean3" ref="bean3"/>
+    </bean>
+
+    <bean name="bean3" class="com.wpc.bean.Bean3">
+        <property name="bean2" ref="bean2"/>
+    </bean>
+
+    <bean name="bean2" class="com.wpc.bean.Bean2">
+        <property name="bean1" ref="bean1"/>
+    </bean>
+
+    <bean name="bean1" class="com.wpc.bean.Bean1"/>
 
     <!--ViewResolver 视图解析器-->
     <!--用于支持Servlet、JSP视图解析-->
